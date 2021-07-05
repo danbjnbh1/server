@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const mongoURL = 'mongodb://localhost:27017/keeperDB';
+// mongodb://localhost:27017/keeperDB
+const mongoURL = 'mongodb+srv://dan:1234@cluster0.sivcn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 mongoose.connect(mongoURL, {
   useNewUrlParser: true,
@@ -29,9 +30,19 @@ const noteSchema = new mongoose.Schema({
   content: String,
 });
 
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  notes: [noteSchema],
+});
+
 const Note = mongoose.model('Note', noteSchema);
 
-app.post('/add', (req, res) => {
+const User = mongoose.model('User', userSchema);
+
+app.post('/add/:id', (req, res) => {
+  const id = req.params.id;
   const data = req.body;
   const newNote = new Note({
     title: data.title,
@@ -39,27 +50,42 @@ app.post('/add', (req, res) => {
   });
 
   newNote.save();
-  res.send('note added');
+  User.findById(id, (err, found) => {
+    if (!err) {
+      if (found) {
+        found.notes.push(newNote);
+        found.save();
+        res.send(found.notes);
+      }
+    }
+  });
 });
 
-app.get('/notes', (req, res) => {
-  Note.find({}, (err, found) => {
-    if (err) {
-      console.log(err);
-    } else {
-      const notes = found;
-      res.send(notes);
+app.get('/notes/:id', (req, res) => {
+  const id = req.params.id;
+  User.findById(id, (err, found) => {
+    if (!err) {
+      if (found) {
+        res.send(found.notes);
+      }
     }
   });
 });
 
 app.delete('/delete/:id', (req, res) => {
   const id = req.params.id;
-  Note.findByIdAndRemove(id, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send({ removed: id });
+  const noteId = req.body.noteId;
+  User.findById(id, (err, found) => {
+    if (!err) {
+      if (found) {
+        found.notes.forEach((element, index) => {
+          if (element._id == noteId) {
+            found.notes.splice(index, 1);
+          }
+        });
+        found.save();
+        res.send(found.notes);
+      }
     }
   });
 });
@@ -67,20 +93,60 @@ app.delete('/delete/:id', (req, res) => {
 app.put('/update/:id', (req, res) => {
   const id = req.params.id;
   const data = req.body;
-  Note.updateOne(
-    { _id: id },
-    { [data.elementToChange]: data.value },
-    (err, found) => {
-      if (err) {
-        console.log(err);
-      } else if (found) {
-        res.send({ update: id });
+  User.findById(id, (err, found) => {
+    if (!err) {
+      if (found) {
+        found.notes.forEach((element, index) => {
+          if (element._id == data.noteId) {
+            found.notes[index][data.elementToChange] = data.value;
+          }
+        });
+        found.save();
+        res.send(found.notes);
       }
     }
-  );
+  });
 });
 
-app.listen(3001, () => {
+app.post('/signUp', (req, res) => {
+  const data = req.body;
+  User.findOne({ email: data.email }, (err, found) => {
+    if (!err) {
+      if (found) {
+        res.send(JSON.stringify('this email exist'));
+      } else {
+        const newUser = new User({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          notes: [],
+        });
+        newUser.save();
+        res.send(JSON.stringify(newUser));
+      }
+    }
+  });
+});
+
+app.post('/login', (req, res) => {
+  const data = req.body;
+  User.findOne({ email: data.email, password: data.password }, (err, found) => {
+    if (!err) {
+      if (found) {
+        res.send(found);
+      } else {
+        res.send(JSON.stringify(false));
+      }
+    }
+  });
+});
+
+let port = process.env.PORT;
+if (port == null || port === '') {
+  port = 3001;
+}
+
+app.listen(port, () => {
   console.log('server is running on port 3001');
   console.log('http://localhost:3001/');
 });
