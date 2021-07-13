@@ -8,6 +8,12 @@
 # testing
 /coverage
 
+<<<<<<< HEAD
+=======
+# production
+/build
+
+>>>>>>> 482e78e680fc6b377c3482c9b36c8307c6c63905
 # misc
 .DS_Store
 .env.local
@@ -18,4 +24,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
 
+=======
+>>>>>>> 482e78e680fc6b377c3482c9b36c8307c6c63905
