@@ -1,1 +1,1 @@
-worker:node server/index.js
+worker:node src/index.js
