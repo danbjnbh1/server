@@ -6,13 +6,13 @@ const {
 } = require('../controllers/notes');
 
 const notesRoutes = (app) => {
-  app.get('/notes/:id', getAllNotes);
+  app.get('/:id/notes', getAllNotes);
 
-  app.post('/add/:id', addNote);
+  app.post('/:id/add/', addNote);
 
-  app.delete('/delete/:id', deleteNote);
+  app.delete('/:id/delete/', deleteNote);
 
-  app.put('/update/:id', updateNote);
+  app.put('/"id/update/', updateNote);
 };
 
 module.exports = notesRoutes;
