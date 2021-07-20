@@ -1,4 +1,4 @@
-const Note = require('./Note');
+const Note = require('./Note').Note;
 const User = require('./User');
 
 module.exports.Note = Note;
