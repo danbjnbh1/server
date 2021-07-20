@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const noteSchema = require('./Note').noteSchema;
+const { noteSchema } = require('./Note');
 
 const userSchema = new mongoose.Schema({
   name: String,
