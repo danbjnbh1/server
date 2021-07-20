@@ -60,6 +60,7 @@ module.exports.updateNote = (req, res) => {
             found.notes[index][data.elementToChange] = data.value;
           }
         });
+        console.log(found);
         found.save();
         res.send(found.notes);
       }
