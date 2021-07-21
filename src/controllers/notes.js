@@ -14,32 +14,35 @@ module.exports.getAllNotes = (req, res) => {
 module.exports.addNote = (req, res) => {
   const id = req.params.id;
   const data = req.body;
-  if (data.body.type === 'note'){
-  const newNote = new Note({
-    type: 'note',
-    title: data.title,
-    content: data.content,
-  });
+  if (data.body.type === 'note') {
+    const newNote = new Note({
+      type: 'note',
+      title: data.title,
+      content: data.content,
+    });
 
-  newNote.save();
-} else if(data.body.type === 'folder'){
-  const newFolder = new Folder({
-    type: 'Folder',
-    title: data.name,
-  });
+    newNote.save();
+  } else if (data.body.type === 'folder') {
+    const newFolder = new Folder({
+      type: 'Folder',
+      title: data.name,
+    });
 
-  newFolder.save();
-}
+    newFolder.save();
+  }
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.push(Folder);
+        if (newFolder) {
+          found.notes.push(newFolder);
+        } else {
+          found.notes.push(newNote);
+        }
         found.save();
         res.send(found.notes);
       }
     }
   });
-
 };
 
 module.exports.deleteNote = (req, res) => {
