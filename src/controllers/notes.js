@@ -1,4 +1,4 @@
-const { Note, User } = require('../models');
+const { Note, User, Folder } = require('../models');
 
 module.exports.getAllNotes = (req, res) => {
   const id = req.params.id;
@@ -14,6 +14,7 @@ module.exports.getAllNotes = (req, res) => {
 module.exports.addNote = (req, res) => {
   const id = req.params.id;
   const data = req.body;
+  if (data.body === 'note'){
   const newNote = new Note({
     type: 'note',
     title: data.title,
@@ -21,15 +22,24 @@ module.exports.addNote = (req, res) => {
   });
 
   newNote.save();
+} else if(data.body === 'folder'){
+  const newFolder = new Folder({
+    type: 'Folder',
+    title: data.name,
+  });
+
+  newFolder.save();
+}
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.push(newNote);
+        found.notes.push(Folder);
         found.save();
         res.send(found.notes);
       }
     }
   });
+
 };
 
 module.exports.deleteNote = (req, res) => {
