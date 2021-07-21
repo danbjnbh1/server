@@ -8,6 +8,7 @@ module.exports.signUpController = (req, res) => {
         res.send(JSON.stringify('this email exist'));
       } else {
         const newUser = new User({
+          type: 'user',
           name: data.name,
           email: data.email,
           password: data.password,

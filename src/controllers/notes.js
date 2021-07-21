@@ -15,6 +15,7 @@ module.exports.addNote = (req, res) => {
   const id = req.params.id;
   const data = req.body;
   const newNote = new Note({
+    type: 'note',
     title: data.title,
     content: data.content,
   });
