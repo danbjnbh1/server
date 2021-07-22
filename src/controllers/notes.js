@@ -17,7 +17,7 @@ module.exports.addNote = (req, res) => {
   console.log(data);
   if (data.type === 'note') {
     console.log('add note');
-    const newNote = new Note({
+    var newNote = new Note({
       type: 'note',
       title: data.title,
       content: data.content,
@@ -26,7 +26,7 @@ module.exports.addNote = (req, res) => {
     newNote.save();
   } else if (data.type === 'folder') {
     console.log('add folder');
-    const newFolder = new Folder({
+    var newFolder = new Folder({
       type: 'Folder',
       title: data.name,
     });
