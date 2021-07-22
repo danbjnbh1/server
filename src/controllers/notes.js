@@ -29,7 +29,7 @@ module.exports.addNote = (req, res) => {
       if (found) {
         found.folderContent.push(newNote);
         found.save();
-        res.send(found);
+        res.send( JSON.stringify(found));
       }
     } else res.send(err)
   });
