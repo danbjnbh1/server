@@ -4,7 +4,7 @@ const {
   updateFolder,
 } = require('../controllers/folders');
 
-const notesRoutes = (app) => {
+const foldersRoutes = (app) => {
   app.post('/:id/addFolder', addFolder);
 
   app.delete('/:id/deleteFolder', deleteFolder);
