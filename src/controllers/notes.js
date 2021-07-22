@@ -5,7 +5,7 @@ module.exports.getAllNotes = (req, res) => {
   User.findById(userId, (err, found) => {
     if (!err) {
       if (found) {
-        res.send(found.folderContent);
+        res.send(found);
       }
     }
   });
@@ -24,12 +24,12 @@ module.exports.addNote = (req, res) => {
 
   newNote.save();
 
-  User.findById(userId, (err, found) => {
+  Folder.findById(userId, (err, found) => {
     if (!err) {
       if (found) {
         found.folderContent.push(newNote);
         found.save();
-        res.send(found.folderContent);
+        res.send(found);
       }
     } else res.send(err)
   });
@@ -47,7 +47,7 @@ module.exports.deleteNote = (req, res) => {
           }
         });
         found.save();
-        res.send(found.folderContent);
+        res.send(found);
       }
     }
   });
@@ -66,7 +66,7 @@ module.exports.updateNote = (req, res) => {
         });
         console.log(found);
         found.save();
-        res.send(found.folderContent);
+        res.send(found);
       }
     }
   });

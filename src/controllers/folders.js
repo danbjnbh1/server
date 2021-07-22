@@ -19,7 +19,7 @@ console.log(data.name);
       if (found) {
         found.folderContent.push(newFolder);
         found.save();
-        res.send(found.folderContent);
+        res.send(found);
       }
     } else res.send(err);
   });
@@ -38,7 +38,7 @@ module.exports.deleteFolder = (req, res) => {
           }
         });
         found.save();
-        res.send(found.folderContent);
+        res.send(found);
       }
     } else res.send(err);
   });
@@ -58,7 +58,7 @@ module.exports.updateFolder = (req, res) => {
         });
         console.log(found);
         found.save();
-        res.send(found.folderContent);
+        res.send(found);
       }
     }
   });
