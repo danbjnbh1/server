@@ -7,7 +7,7 @@ module.exports.addFolder = (req, res) => {
 console.log(data.name);
   const newFolder = new Folder({
     type: 'folder',
-    name: String(data.name),
+    name: "kk",
   });
 
   newFolder.save();
