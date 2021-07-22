@@ -1,4 +1,4 @@
-const { Note, User, Folder } = require('../models');
+const { User, Folder } = require('../models');
 
 module.exports.addFolder = (req, res) => {
   const id = req.params.id;
@@ -7,7 +7,7 @@ module.exports.addFolder = (req, res) => {
 
   const newFolder = new Folder({
     type: 'folder',
-    title: data.name,
+    name: data.name,
   });
 
   newFolder.save();
