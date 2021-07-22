@@ -1,3 +1,5 @@
+const { Note, User, Folder } = require('../models');
+
 module.exports.addFolder = (req, res) => {
   const id = req.params.id;
   const data = req.body;
