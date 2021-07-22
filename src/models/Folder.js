@@ -4,7 +4,7 @@ const { noteSchema } = require('./Note');
 const folderSchema = new mongoose.Schema({
   type: String,
   title: String,
-  folderContent: [],
+  note: [],
 });
 
 const Folder = mongoose.model('Folder', folderSchema);
