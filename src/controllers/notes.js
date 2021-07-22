@@ -36,7 +36,7 @@ module.exports.addNote = (req, res) => {
       if (found) {
         if (typeof newFolder !== 'undefined') {
           found.notes.push(newFolder);
-        } else (typeof newNote !== 'undefined'){
+        } else if (typeof newFolder !== 'undefined'){
           found.notes.push(newNote);
         }
         found.save();
