@@ -1,4 +1,4 @@
-const { Note, User, Folder } = require('../models');
+const { Note, User } = require('../models');
 
 module.exports.getAllNotes = (req, res) => {
   const id = req.params.id;
