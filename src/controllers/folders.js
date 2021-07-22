@@ -8,6 +8,7 @@ console.log(data.name);
   const newFolder = new Folder({
     type: 'folder',
     title: data.name,
+    folderContent: [];
   });
 
   newFolder.save();
