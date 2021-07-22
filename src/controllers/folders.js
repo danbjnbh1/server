@@ -4,7 +4,7 @@ module.exports.addFolder = (req, res) => {
   const id = req.params.id;
   const data = req.body;
   console.log(data);
-
+console.log(data.name);
   const newFolder = new Folder({
     type: 'folder',
     name: data.name,
