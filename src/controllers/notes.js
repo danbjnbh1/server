@@ -14,7 +14,7 @@ module.exports.getAllNotes = (req, res) => {
 module.exports.addNote = (req, res) => {
   const id = req.params.id;
   const data = req.body;
-  log(data)
+  console.log(data)
   if (data.type === 'note') {
     const newNote = new Note({
       type: 'note',
