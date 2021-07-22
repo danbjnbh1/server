@@ -5,11 +5,11 @@ const {
 } = require('../controllers/folders');
 
 const foldersRoutes = (app) => {
-  app.post('/:id/addFolder', addFolder);
+  app.post('/:userId/:folderId/addFolder', addFolder);
 
-  app.delete('/:id/deleteFolder', deleteFolder);
+  app.delete('/:userId/:folderId/deleteFolder', deleteFolder);
 
-  app.put('/:id/updateFolder', updateFolder);
+  app.put('/:userId/:folderId/updateFolder', updateFolder);
 };
 
 module.exports = foldersRoutes;

@@ -1,7 +1,8 @@
 const { User, Folder } = require('../models');
 
 module.exports.addFolder = (req, res) => {
-  const id = req.params.id;
+  const userId = req.params.userId;
+  const folderId = req.params.folderId;
   const data = req.body;
   console.log(data);
 console.log(data.name);
@@ -13,49 +14,51 @@ console.log(data.name);
 
   newFolder.save();
 
-  User.findById(id, (err, found) => {
+  User.findById(userId, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.push(newFolder);
+        found.folderContent.push(newFolder);
         found.save();
-        res.send(found.notes);
+        res.send(found.folderContent);
       }
     } else res.send(err);
   });
 };
 
 module.exports.deleteFolder = (req, res) => {
-  const id = req.params.id;
-  const folderId = req.body.folderId;
-  User.findById(id, (err, found) => {
+  const userId = req.params.userId;
+  const folderId = req.params.folderId;
+  const folderIdToDelete = req.body.folderId;
+  User.findById(userId, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.forEach((element, index) => {
-          if (element._id == folderId) {
-            found.notes.splice(index, 1);
+        found.folderContent.forEach((element, index) => {
+          if (element._id == folderIdToDelete) {
+            found.folderContent.splice(index, 1);
           }
         });
         found.save();
-        res.send(found.notes);
+        res.send(found.folderContent);
       }
     } else res.send(err);
   });
 };
 
 module.exports.updateFolder = (req, res) => {
-  const id = req.params.id;
+  const userId = req.params.userId;
+  const folderId = req.params.folderId;
   const newName = req.body.newName;
-  User.findById(id, (err, found) => {
+  User.findById(userId, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.forEach((element, index) => {
+        found.folderContent.forEach((element, index) => {
           if (element._id == data.noteId) {
-            found.notes[index]['name'] = newName;
+            found.folderContent[index]['name'] = newName;
           }
         });
         console.log(found);
         found.save();
-        res.send(found.notes);
+        res.send(found.folderContent);
       }
     }
   });

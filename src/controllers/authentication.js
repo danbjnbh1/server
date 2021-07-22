@@ -12,7 +12,7 @@ module.exports.signUpController = (req, res) => {
           name: data.name,
           email: data.email,
           password: data.password,
-          notes: [],
+          folderContent: [],
         });
         newUser.save();
         res.send(JSON.stringify(newUser));

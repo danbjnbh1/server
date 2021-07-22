@@ -5,7 +5,7 @@ module.exports.getAllNotes = (req, res) => {
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
-        res.send(found.notes);
+        res.send(found.folderContent);
       }
     }
   });
@@ -27,9 +27,9 @@ module.exports.addNote = (req, res) => {
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.push(newNote);
+        found.folderContent.push(newNote);
         found.save();
-        res.send(found.notes);
+        res.send(found.folderContent);
       }
     } else res.send(err)
   });
@@ -41,13 +41,13 @@ module.exports.deleteNote = (req, res) => {
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.forEach((element, index) => {
+        found.folderContent.forEach((element, index) => {
           if (element._id == noteId) {
-            found.notes.splice(index, 1);
+            found.folderContent.splice(index, 1);
           }
         });
         found.save();
-        res.send(found.notes);
+        res.send(found.folderContent);
       }
     }
   });
@@ -59,14 +59,14 @@ module.exports.updateNote = (req, res) => {
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.forEach((element, index) => {
+        found.folderContent.forEach((element, index) => {
           if (element._id == data.noteId) {
-            found.notes[index][data.elementToChange] = data.value;
+            found.folderContent[index][data.elementToChange] = data.value;
           }
         });
         console.log(found);
         found.save();
-        res.send(found.notes);
+        res.send(found.folderContent);
       }
     }
   });
