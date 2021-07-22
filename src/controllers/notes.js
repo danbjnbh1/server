@@ -1,8 +1,8 @@
 const { Note, User } = require('../models');
 
 module.exports.getAllNotes = (req, res) => {
-  const id = req.params.id;
-  User.findById(id, (err, found) => {
+  const userId = req.params.userId;
+  User.findById(userId, (err, found) => {
     if (!err) {
       if (found) {
         res.send(found.folderContent);
@@ -12,7 +12,7 @@ module.exports.getAllNotes = (req, res) => {
 };
 
 module.exports.addNote = (req, res) => {
-  const id = req.params.id;
+  const userId = req.params.userId;
   const data = req.body;
   console.log(data);
 
@@ -24,7 +24,7 @@ module.exports.addNote = (req, res) => {
 
   newNote.save();
 
-  User.findById(id, (err, found) => {
+  User.findById(userId, (err, found) => {
     if (!err) {
       if (found) {
         found.folderContent.push(newNote);
@@ -36,9 +36,9 @@ module.exports.addNote = (req, res) => {
 };
 
 module.exports.deleteNote = (req, res) => {
-  const id = req.params.id;
+  const userId = req.params.userId;
   const noteId = req.body.noteId;
-  User.findById(id, (err, found) => {
+  User.findById(userId, (err, found) => {
     if (!err) {
       if (found) {
         found.folderContent.forEach((element, index) => {
