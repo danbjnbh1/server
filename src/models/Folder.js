@@ -5,7 +5,7 @@ const folderSchema = new mongoose.Schema();
 folderSchema.add({
   type: String,
   title: String,
-  folderContent: [folderSchema, noteSchema],
+  folderContent: [noteSchema],
 })
 
 const Folder = mongoose.model('Folder', folderSchema);
