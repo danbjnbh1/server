@@ -8,7 +8,7 @@ console.log(data.name);
   const newFolder = new Folder({
     type: 'folder',
     title: data.name,
-    note: ["sdd","dsds"]
+    folderContent: []
   });
 
   newFolder.save();

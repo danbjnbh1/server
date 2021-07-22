@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const { noteSchema } = require('./Note');
-const { folderSchema } = require('./Folder')
 
 const userSchema = new mongoose.Schema({
   type: String,
