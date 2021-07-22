@@ -27,7 +27,7 @@ module.exports.addNote = (req, res) => {
   } else if (data.type === 'folder') {
     console.log('add folder');
     var newFolder = new Folder({
-      type: 'Folder',
+      type: 'folder',
       title: data.name,
     });
 
