@@ -8,11 +8,11 @@ const {
 const notesRoutes = (app) => {
   app.get('/:id/notes', getAllNotes);
 
-  app.post('/:id/add', addNote);
+  app.post('/:id/addNote', addNote);
 
-  app.delete('/:id/delete', deleteNote);
+  app.delete('/:id/deleteNote', deleteNote);
 
-  app.put('/:id/update', updateNote);
+  app.put('/:id/updateNote', updateNote);
 };
 
 module.exports = notesRoutes;

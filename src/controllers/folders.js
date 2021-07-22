@@ -1,43 +1,29 @@
-const { Note, User, Folder } = require('../models');
-
-module.exports.getAllNotes = (req, res) => {
-  const id = req.params.id;
-  User.findById(id, (err, found) => {
-    if (!err) {
-      if (found) {
-        res.send(found.notes);
-      }
-    }
-  });
-};
-
-module.exports.addNote = (req, res) => {
+module.exports.addFolder = (req, res) => {
   const id = req.params.id;
   const data = req.body;
   console.log(data);
 
-  const newNote = new Note({
-    type: 'note',
-    title: data.title,
-    content: data.content,
+  const newFolder = new Folder({
+    type: 'folder',
+    title: data.name,
   });
 
-  newNote.save();
+  newFolder.save();
 
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
-        found.notes.push(newNote);
+        found.notes.push(newFolder);
         found.save();
         res.send(found.notes);
       }
-    } else res.send(err)
+    } else res.send(err);
   });
 };
 
-module.exports.deleteNote = (req, res) => {
+module.exports.deleteFolder = (req, res) => {
   const id = req.params.id;
-  const noteId = req.body.noteId;
+  const folderId = req.body.folderId;
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
@@ -49,19 +35,19 @@ module.exports.deleteNote = (req, res) => {
         found.save();
         res.send(found.notes);
       }
-    }
+    } else res.send(err);
   });
 };
 
-module.exports.updateNote = (req, res) => {
+module.exports.updateFolder = (req, res) => {
   const id = req.params.id;
-  const data = req.body;
+  const newName = req.body.newName;
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
         found.notes.forEach((element, index) => {
           if (element._id == data.noteId) {
-            found.notes[index][data.elementToChange] = data.value;
+            found.notes[index]['name'] = newName;
           }
         });
         console.log(found);
