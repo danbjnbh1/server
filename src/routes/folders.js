@@ -12,4 +12,4 @@ const notesRoutes = (app) => {
   app.put('/:id/updateFolder', updateFolder);
 };
 
-module.exports = notesRoutes;
+module.exports = foldersRoutes;
