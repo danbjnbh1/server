@@ -36,7 +36,10 @@ module.exports.addNote = (req, res) => {
   User.findById(id, (err, found) => {
     if (!err) {
       if (found) {
-        if (typeof newFolder !== 'undefined') {
+        console.log("found");
+        console.log(typeof newFolder);
+        console.log(typeof newNote);
+        if (typeof newFolder != 'undefined') {
           found.notes.push(newFolder);
           console.log('push note');
         } else if (typeof newFolder !== 'undefined') {
