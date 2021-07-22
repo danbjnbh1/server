@@ -30,7 +30,7 @@ module.exports.deleteFolder = (req, res) => {
     if (!err) {
       if (found) {
         found.notes.forEach((element, index) => {
-          if (element._id == noteId) {
+          if (element._id == folderId) {
             found.notes.splice(index, 1);
           }
         });
