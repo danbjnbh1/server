@@ -1,35 +1,35 @@
+const mongoose = require('mongoose');
 const { User, Folder } = require('../models');
 
 module.exports.addFolder = (req, res) => {
-  const userId = req.params.userId;
   const folderId = req.params.folderId;
   const data = req.body;
-  console.log(data);
-console.log(data.name);
-  const newFolder = new Folder({
-    type: 'folder',
-    title: data.name,
-    folderContent: []
-  });
 
-  newFolder.save();
-
-  User.findById(userId, (err, found) => {
+  Folder.findById(folderId, (err, found) => {
     if (!err) {
       if (found) {
+        const newFolder = new Folder({
+          type: 'folder',
+          title: data.name,
+          parent: mongoose.Types.ObjectId(folderId),
+          path: found.path + '/' + data.name,
+          folderContent: [],
+        });
+
+        newFolder.save();
         found.folderContent.push(newFolder);
         found.save();
         res.send(found);
       }
-    } else res.send(err);
+    } else console.log(err);
   });
 };
 
 module.exports.deleteFolder = (req, res) => {
-  const userId = req.params.userId;
   const folderId = req.params.folderId;
   const folderIdToDelete = req.body.folderId;
-  User.findById(userId, (err, found) => {
+
+  Folder.findById(folderId, (err, found) => {
     if (!err) {
       if (found) {
         found.folderContent.forEach((element, index) => {
@@ -39,27 +39,38 @@ module.exports.deleteFolder = (req, res) => {
         });
         found.save();
         res.send(found);
-      }
-    } else res.send(err);
+      } else console.log(err);
+    }
+  });
+
+  Folder.findByIdAndRemove(folderIdToDelete, (err, found) => {
+    if (err) {
+      console.log(err);
+    }
   });
 };
 
 module.exports.updateFolder = (req, res) => {
-  const userId = req.params.userId;
   const folderId = req.params.folderId;
-  const newName = req.body.newName;
-  User.findById(userId, (err, found) => {
+  const newName = req.body.value;
+  const folderIdToEdit = req.body.folderIdToEdit;
+  Folder.findById(folderId, (err, found) => {
     if (!err) {
       if (found) {
         found.folderContent.forEach((element, index) => {
-          if (element._id == data.noteId) {
-            found.folderContent[index]['name'] = newName;
+          if (element._id == folderIdToEdit) {
+            found.folderContent[index]['title'] = newName;
           }
         });
-        console.log(found);
+        found.markModified('folderContent');
         found.save();
         res.send(found);
       }
+    }
+  });
+  Folder.findByIdAndUpdate(folderIdToEdit, { title: newName }, (err) => {
+    if (err) {
+      console.log(err);
     }
   });
 };

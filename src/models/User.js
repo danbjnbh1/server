@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
+const { folderSchema } = require('./Folder');
 
 const userSchema = new mongoose.Schema({
   type: String,
   name: String,
   email: String,
   password: String,
-  folderContent: [mongoose.Schema.Types.Mixed],
+  mainFolder: folderSchema,
+  // folderContent: [mongoose.Schema.Types.Mixed],
 });
 
 const User = mongoose.model('User', userSchema);

@@ -1,20 +1,20 @@
-const { Note, User } = require('../models');
+const { Note, User, Folder } = require('../models');
 
 module.exports.getAllNotes = (req, res) => {
-  const userId = req.params.userId;
-  User.findById(userId, (err, found) => {
+  const folderId = req.params.folderId;
+
+  Folder.findById(folderId, (err, found) => {
     if (!err) {
       if (found) {
         res.send(found);
       }
-    }
+    } else console.log(err);
   });
 };
 
 module.exports.addNote = (req, res) => {
-  const userId = req.params.userId;
+  const folderId = req.params.folderId;
   const data = req.body;
-  console.log(data);
 
   const newNote = new Note({
     type: 'note',
@@ -24,21 +24,21 @@ module.exports.addNote = (req, res) => {
 
   newNote.save();
 
-  Folder.findById(userId, (err, found) => {
+  Folder.findById(folderId, (err, found) => {
     if (!err) {
       if (found) {
         found.folderContent.push(newNote);
         found.save();
-        res.send( JSON.stringify(found));
+        res.send(found);
       }
-    } else res.send(err)
+    } else console.log(err);
   });
 };
 
 module.exports.deleteNote = (req, res) => {
-  const userId = req.params.userId;
+  const folderId = req.params.folderId;
   const noteId = req.body.noteId;
-  User.findById(userId, (err, found) => {
+  Folder.findById(folderId, (err, found) => {
     if (!err) {
       if (found) {
         found.folderContent.forEach((element, index) => {
@@ -49,14 +49,20 @@ module.exports.deleteNote = (req, res) => {
         found.save();
         res.send(found);
       }
+    } else console.log(err);
+  });
+
+  Note.findByIdAndRemove(noteId, (err, found) => {
+    if (err) {
+      console.log(err);
     }
   });
 };
 
 module.exports.updateNote = (req, res) => {
-  const id = req.params.id;
+  const folderId = req.params.folderId;
   const data = req.body;
-  User.findById(id, (err, found) => {
+  Folder.findById(folderId, (err, found) => {
     if (!err) {
       if (found) {
         found.folderContent.forEach((element, index) => {
@@ -64,7 +70,7 @@ module.exports.updateNote = (req, res) => {
             found.folderContent[index][data.elementToChange] = data.value;
           }
         });
-        console.log(found);
+        found.markModified('folderContent');
         found.save();
         res.send(found);
       }

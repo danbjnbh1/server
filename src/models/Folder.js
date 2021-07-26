@@ -4,6 +4,10 @@ const { noteSchema } = require('./Note');
 const folderSchema = new mongoose.Schema({
   type: String,
   title: String,
+  parent: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Folder',
+  },
   folderContent: [mongoose.Schema.Types.Mixed],
 });
 
