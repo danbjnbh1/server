@@ -1,6 +1,8 @@
 const app = require('../config/server');
-const mongoose = require('../config/database')();
-const routes = require('./routes')(app);
+const rootRouter = require('./routes');
+require('../config/database')();
+
+app.use(rootRouter);
 
 const port = process.env.PORT || 3001;
 

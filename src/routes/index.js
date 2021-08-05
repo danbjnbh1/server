@@ -1,7 +1,9 @@
-const routes = (app) => {
-  const notesRoutes = require('./notes')(app);
-  const foldersRoutes = require('./folders')(app);
-  const authenticationRoutes = require('./authentication')(app);
-};
+const rootRouter = require('express').Router();
 
-module.exports = routes;
+const notesRouter = require('./notes.routes');
+const foldersRouter = require('./folders.routes');
+const authenticationRouter = require('./authentication.routes');
+
+rootRouter.use(notesRouter, foldersRouter, authenticationRouter);
+
+module.exports = rootRouter;

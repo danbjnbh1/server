@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { noteSchema } = require('./Note');
 
 const folderSchema = new mongoose.Schema({
   type: String,
@@ -8,6 +7,7 @@ const folderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Folder',
   },
+  userEmail: String,
   folderContent: [mongoose.Schema.Types.Mixed],
 });
 

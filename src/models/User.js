@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   mainFolder: folderSchema,
-  // folderContent: [mongoose.Schema.Types.Mixed],
 });
 
 const User = mongoose.model('User', userSchema);
