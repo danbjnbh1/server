@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // mongodb://localhost:27017/keeperDB
 const mongoURL =
-  'mongodb+srv://dan:1234@cluster0.sivcn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+  'mongodb+srv://dan:1234@notes.62njofy.mongodb.net/';
 
 const connection = () => {
   mongoose.connect(mongoURL, {
